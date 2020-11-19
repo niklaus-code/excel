@@ -256,6 +256,12 @@ import headd from '@/components/head'
 	        gettask () {
 		        var pagesize = sessionStorage.getItem('pagesize')
 		        var pagenumber = sessionStorage.getItem('pagenumber')
+                if (pagesize === null) {
+                    pagesize = this.page2.pageSize
+                    }
+                if (pagenumber === null) {
+                    pagenumber = this.page2.currentPage
+                    }
 
                 this.page2.pageSize = pagesize
 
