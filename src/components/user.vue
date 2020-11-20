@@ -14,7 +14,7 @@
           ref="xTable"
           :data="tableData"
           :edit-config="{trigger: 'click', mode: 'cell'}">
-          <vxe-table-column type="index" width="60"></vxe-table-column>
+          <vxe-table-column type="seq" width="60"></vxe-table-column>
           <vxe-table-column field="name" title="姓名" sortable :edit-render="{name: 'input'}"></vxe-table-column>
           <vxe-table-column field="user" title="账号" sortable :edit-render="{name: 'input'}"></vxe-table-column>
           <vxe-table-column field="pwd" title="密码" sortable :edit-render="{name: 'input'}"></vxe-table-column>

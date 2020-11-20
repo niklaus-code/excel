@@ -24,7 +24,7 @@
           @cell-dblclick='insertevent'
           :edit-config="{trigger: 'click', mode: 'row'}">
 
-          <vxe-table-column width="50" type="index" title="序号"></vxe-table-column>
+          <vxe-table-column width="50" type="seq" title="序号"></vxe-table-column>
           <vxe-table-column field="zichanbiaoqian" title="资产标签" :edit-render="{name: 'textarea'}"></vxe-table-column>
           <vxe-table-column field="pinpai" title="品牌" :edit-render="{name: 'textarea'}"></vxe-table-column>
           <vxe-table-column field="xinghao" title="型号" :edit-render="{name: 'textarea'}" ></vxe-table-column>
@@ -38,11 +38,18 @@
           <vxe-table-column field="edinggonglv" title="额定功率" :edit-render="{name: 'textarea'}" ></vxe-table-column>
           <vxe-table-column field="yongdiandengji" title="用电等级" :edit-render="{name: 'textarea'}"></vxe-table-column>
           <vxe-table-column field="guanliip" title="管理IP" :edit-render="{name: 'textarea'}"></vxe-table-column>
-          <vxe-table-column field="yewuip" title="业务IP" :edit-render="{name: 'textarea'}" ></vxe-table-column>
+
+
+
+          <vxe-table-column field="yewuip" title="业务IP" :edit-render="{name: 'textarea'}" <i class="vxe-icon--caret-top"></i> >
+          </vxe-table-column>
+
+
+
           <vxe-table-column field="beizhu" title="备注" :edit-render="{name: 'textarea'}"></vxe-table-column>
-          <vxe-table-column title="操作" width="15%"  v-if="save">
+          <vxe-table-column title="操作" width="10%"  v-if="save">
             <template v-slot="{ row }">
-              <template v-if="$refs.xTable.hasActiveRow(row)">
+              <template v-if="$refs.xTable.isActiveByRow(row)">
                 <vxe-button @click="saveRowEvent(row)">保存</vxe-button>
                 <vxe-button @click="cancelRowEvent(row)">取消</vxe-button>
               </template>
@@ -80,7 +87,7 @@ import headd from '@/components/head'
 
           	    page2: {
                 	currentPage: 1,
-                	pageSize: 50,
+                	pageSize: 20,
                 	totalResult: 200
               	},
 
@@ -191,9 +198,6 @@ import headd from '@/components/head'
         },
 
         methods: {
-	        filterAgeMethod ({ option, row }) {
-                return row.user === option.data
-            },
             deleteRowEvent (row) {
                 this.$http.get('/init/deletemachine', {params: { taskid: row.id}}).then(response => {
 					this.$XModal.message({ message: response.data.message, status: 'success' })
