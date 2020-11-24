@@ -4,7 +4,9 @@
         <vxe-toolbar style="margin-top:20px">
           <template v-slot:buttons>
             <vxe-button v-if="xx" @click="getInsertEvent()">保存</vxe-button>
-            <vxe-button  v-if="xx" @click="insertEvent()">新增</vxe-button>
+            <vxe-button v-if="xx" @click="insertEvent()">新增</vxe-button>
+            <vxe-button ><a :href="'http://10.0.86.154/init/machine_excel'">默认导出</a></vxe-button>
+
           </template>
         </vxe-toolbar>
 
@@ -41,8 +43,7 @@
 
 
 
-          <vxe-table-column field="yewuip" title="业务IP" :edit-render="{name: 'textarea'}" <i class="vxe-icon--caret-top"></i> >
-          </vxe-table-column>
+          <vxe-table-column field="yewuip" title="业务IP" :edit-render="{name: 'textarea'}"></vxe-table-column>
 
 
 
@@ -198,6 +199,9 @@ import headd from '@/components/head'
         },
 
         methods: {
+            exportData () {
+                this.$http.get('/init/machine_excel')
+                },
             deleteRowEvent (row) {
                 this.$http.get('/init/deletemachine', {params: { taskid: row.id}}).then(response => {
 					this.$XModal.message({ message: response.data.message, status: 'success' })

@@ -8,6 +8,7 @@ import MySQLdb
 from user import Login, UserAdd, User
 from task import AddTask, GetTask, UpdateTask, DeleTask
 from machine import Addmachine, Getmachine, Updatemachine, Delemachine
+from machine_excel import Getmachine_excel
 
 
 db = pymysql.connect("127.0.0.1","mysql","mysql","ysman" )
@@ -191,10 +192,7 @@ api.add_resource(User, '/init/getuser')
 api.add_resource(Addmachine, '/init/addmachine')
 api.add_resource(Getmachine, '/init/getmachine')
 api.add_resource(Updatemachine, '/init/updatemachine')
-#api.add_resource(AddTask, '/init/addtask')
-#api.add_resource(GetTask, '/init/gettask')
-#api.add_resource(UpdateTask, '/init/updatetask')
-#api.add_resource(DeleTask, '/init/deletetask')
+api.add_resource(Getmachine_excel, '/init/machine_excel')
 api.add_resource(Delemachine, '/init/deletemachine')
 
 if __name__ == '__main__':
