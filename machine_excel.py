@@ -34,6 +34,8 @@ class Getmachine_excel(Resource):
         data = np.array(all_machine)
         data_df = pd.DataFrame(data)
         data_df.columns = ['资产标签','品牌','型号','序列号','设备类型','数据中心位置','机房位置','机柜位置','高度','设备状态','额定功率','用电等级','管理IP','业务IP','备注','创建时间']
+        #定义索引
+        data_df = data_df.set_index('资产标签', drop=True)
         bio = BytesIO()
         writer = pd.ExcelWriter(bio, engine='xlsxwriter')
         data_df.to_excel(writer,float_format='%.5f')
