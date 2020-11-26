@@ -28,8 +28,14 @@ class Getmachine_excel(Resource):
         self.cursor.execute(sql)
         res = self.cursor.fetchall()
         all_machine = []
-        for one in res:
-            all_machine.append(one)
+        for machine in res:
+            machine_l = list(machine)
+            print(machine_l)
+            if machine_l[9] == 1:
+                machine_l[9] = "关机"
+            else:
+                machine_l[9] = "开机"
+            all_machine.append(machine_l)
 
         data = np.array(all_machine)
         data_df = pd.DataFrame(data)
