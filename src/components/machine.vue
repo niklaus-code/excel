@@ -5,7 +5,7 @@
           <template v-slot:buttons>
             <vxe-button v-if="xx" @click="getInsertEvent()">保存</vxe-button>
             <vxe-button v-if="xx" @click="insertEvent()">新增</vxe-button>
-            <vxe-button ><a :href="'http://10.0.86.154/init/machine_excel'">默认导出</a></vxe-button>
+            <vxe-button ><a :href="'http://10.0.86.154/init/machine_excel'">导出excel</a></vxe-button>
 
           </template>
         </vxe-toolbar>
