@@ -90,7 +90,7 @@ import headd from '@/components/head'
                 statuslist: [
                     {
                     'label': '开机',
-                    'value': 0
+                    'value': 0,
                     },
                     {
                     'label': '关机',
@@ -100,7 +100,7 @@ import headd from '@/components/head'
                 partlist: [
                     {
                     'label': '怀柔',
-                    'value': 0
+                    'value': 0,
                     },
                     {
                     'label': '中关村',
@@ -122,7 +122,7 @@ import headd from '@/components/head'
                     },
                     {
                     'label': '服务器',
-                    'value': 1
+                    'value': 1,
                     },
                     {
                     'label': '交换机',
@@ -140,7 +140,7 @@ import headd from '@/components/head'
                     },
                     {
                     'label': '2',
-                    'value': 2
+                    'value': 2,
                     },
                     {
                     'label': '3',
@@ -155,30 +155,6 @@ import headd from '@/components/head'
                     'value': 0
                     }
                 ],
-                priority_list: [
-                    {
-                    'label': '高',
-                    'value': '2'
-                    },
-                    {
-                    'label': '中',
-                    'value': '1'
-                    },
-                    {
-                    'label': '低',
-                    'value': '0'
-                    }
-                    ],
-                sex_list: [
-                    {
-                    'label': '已完成',
-                    'value': '1'
-                    },
-                    {
-                    'label': '进行中',
-                    'value': '0'
-                    }
-                    ]
             }
           },
         components: {
@@ -246,9 +222,9 @@ import headd from '@/components/head'
                 this.save = false;
                 let record = {
                		status: "0",
-			        priority: "1"
-              }
-		    this.$refs.xTable.insertAt(record, row)
+			priority: "1"
+              		}
+		this.$refs.xTable.insertAt(record, row)
                 .then(({ row }) => this.$refs.xTable.setActiveCell(row, 'status'))
             },
 
@@ -256,8 +232,10 @@ import headd from '@/components/head'
                 let insertRecords = this.$refs.xTable.getInsertRecords()
                 this.$http.get('/init/updatemachine', {params: {data: row}}).then(response => {
 			if (response.data) {
+				this.reload()
 			    this.$XModal.message({ message: '保存成功', status: 'success' })
 				}else {
+			    this.$XModal.message({ message: '保存失败', status: 'success' })
 			}
                 })
             },
@@ -277,6 +255,7 @@ import headd from '@/components/head'
 
             getInsertEvent () {
                 let insertRecords = this.$refs.xTable.getInsertRecords()
+		console.log(JSON.stringify(insertRecords))
                 this.$http.get('/init/addmachine', {params: {data: JSON.stringify(insertRecords)}}).then(response => {
 			    this.$XModal.message({ message: response.data.message, status: 'success' })
 			    this.reload()
