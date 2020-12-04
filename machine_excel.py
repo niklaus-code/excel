@@ -3,7 +3,6 @@ from flask_restful import Resource, Api, reqparse
 
 import pymysql
 import json
-import MySQLdb
 import pandas as pd
 import numpy as np
 from io import BytesIO
@@ -18,7 +17,7 @@ api = Api(app)
 
 class Getmachine_excel(Resource):
     def __init__(self):
-        self.db = pymysql.connect("127.0.0.1","mysql","mysql","ysman" )
+        self.db = pymysql.connect("127.0.0.1","ysman","123456","ysman" )
         self.cursor = self.db.cursor()
         self.get_args = reqparse.RequestParser()
         self.args = self.get_args.parse_args()

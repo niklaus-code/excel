@@ -4,7 +4,6 @@ from flask_restful import Resource, Api, reqparse
 import pymysql
 import json
 
-import MySQLdb
 from utils import Encryption
 
 

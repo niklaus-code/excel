@@ -3,7 +3,6 @@ from flask_restful import Resource, Api, reqparse
 
 import pymysql
 import json
-import MySQLdb
 
 from user import Login, UserAdd, User
 
@@ -14,7 +13,7 @@ api = Api(app)
 
 class Updatemachine(Resource):
     def __init__(self):
-        self.db = pymysql.connect("127.0.0.1","mysql","mysql","ysman" )
+        self.db = pymysql.connect("127.0.0.1","ysman","123456","ysman" )
         self.cursor =self.db. cursor()
         self.get_args = reqparse.RequestParser()
         self.get_args.add_argument("data",  type=str)
@@ -25,18 +24,18 @@ class Updatemachine(Resource):
         sdata = json.loads(self.args["data"])
         year = self.args["year"]
 
-        obj = Getmachine()
-        data  = obj.get()
-
-        sql = '''update machineroom set zichanbiaoqian='%s', pinpai='%s', xinghao='%s', xuliehao='%s', shebeileixing='%s', shujuzhongxinweizhi='%s', jifangweizhi='%s',  jiguiweizhi='%s',gaodu='%s', shebeizhuangtai='%s', edinggonglv='%s', yongdiandengji='%s', guanliip='%s', yewuip='%s', beizhu='%s' where id =%d ''' % (sdata["zichanbiaoqian"], sdata["pinpai"], sdata["xinghao"],sdata["xuliehao"], sdata["shebeileixing"], sdata["shujuzhongxinweizhi"], sdata["jifangweizhi"], sdata["jiguiweizhi"], sdata["gaodu"],sdata["shebeizhuangtai"],sdata["edinggonglv"],sdata["yongdiandengji"], sdata["guanliip"],sdata["yewuip"],sdata["beizhu"], int(sdata["id"]))
-        self.cursor.execute(sql)
-        self.db.commit()
-        return {"data": data, "message": "成功"}
+        try:
+            sql = '''update machineroom set zichanbiaoqian='%s', pinpai='%s', xinghao='%s', xuliehao='%s', shebeileixing='%s', shujuzhongxinweizhi='%s', jifangweizhi='%s',  jiguiweizhi='%s',gaodu='%s', shebeizhuangtai='%s', edinggonglv='%s', yongdiandengji='%s', guanliip='%s', yewuip='%s', beizhu='%s' where id =%d ''' % (sdata["zichanbiaoqian"], sdata["pinpai"], sdata["xinghao"],sdata["xuliehao"], sdata["shebeileixing"], sdata["shujuzhongxinweizhi"], sdata["jifangweizhi"], sdata["jiguiweizhi"], sdata["gaodu"],sdata["shebeizhuangtai"],sdata["edinggonglv"],sdata["yongdiandengji"], sdata["guanliip"],sdata["yewuip"],sdata["beizhu"], int(sdata["id"]))
+            self.cursor.execute(sql)
+            self.db.commit()
+            return True
+        except:
+            return False
 
 
 class Delemachine(Resource):
     def __init__(self):
-        self.db = pymysql.connect("127.0.0.1","mysql","mysql","ysman" )
+        self.db = pymysql.connect("127.0.0.1","ysman","123456","ysman" )
         self.cursor =self.db. cursor()
         self.get_args = reqparse.RequestParser()
         self.get_args.add_argument("taskid",  type=int)
@@ -49,12 +48,10 @@ class Delemachine(Resource):
 
         obj = Getmachine()
         data  = obj.get(year)
-        print(taskid)
         if not taskid:
             return {"data": data["data"], "message": "请规范操作"}
 
         sql = '''update machineroom set status=0 where id = %d ''' % taskid 
-        print(sql)
         self.cursor.execute(sql)
         self.db.commit()
         return {"data": data, "message": "删除成功"}
@@ -62,7 +59,7 @@ class Delemachine(Resource):
 
 class Addmachine(Resource):
     def __init__(self):
-        self.db = pymysql.connect("127.0.0.1","mysql","mysql","ysman" )
+        self.db = pymysql.connect("127.0.0.1","ysman","123456","ysman" )
         self.cursor =self.db. cursor()
         self.get_args = reqparse.RequestParser()
         self.get_args.add_argument("data",  type=str)
@@ -75,8 +72,11 @@ class Addmachine(Resource):
         userid = request.cookies.get('userid')
 
         obj = Getmachine()
-        print(sdata)
-        data  = obj.get(year)
+        data  = obj.get()
+
+        if not sdata:
+            return {"data": data["data"], "message": "您还没有输入数据"}
+
         if not sdata[0]["zichanbiaoqian"]:
             return {"data": data["data"], "message": "您还没有输入数据"}
 
@@ -89,7 +89,7 @@ class Addmachine(Resource):
 
 class Getmachine(Resource):
     def __init__(self):
-        self.db = pymysql.connect("127.0.0.1","mysql","mysql","ysman" )
+        self.db = pymysql.connect("127.0.0.1","ysman","123456","ysman" )
         self.cursor = self.db.cursor()
         self.get_args = reqparse.RequestParser()
         self.get_args.add_argument("pagenumber",  type=int, default=1)
@@ -109,8 +109,7 @@ class Getmachine(Resource):
         total_page = self.total_page(pagesize, userid)
 
         start_page = (pagenumber-1) * pagesize
-        sql = '''select * from machineroom  where status = 1 limit %d, %d''' %(start_page, pagesize)
-        print(sql)
+        sql = '''select * from machineroom  where status = 1 order by id desc limit %d, %d''' %(start_page, pagesize)
         self.cursor.execute(sql)
         res = self.cursor.fetchall()
         ll = []

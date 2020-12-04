@@ -5,8 +5,7 @@
           <template v-slot:buttons>
             <vxe-button v-if="xx" @click="getInsertEvent()">保存</vxe-button>
             <vxe-button v-if="xx" @click="insertEvent()">新增</vxe-button>
-            <vxe-button ><a :href="'http://10.0.86.154/init/machine_excel'">导出excel</a></vxe-button>
-
+            <vxe-button ><a :href="'http://10.0.90.151/init/machine_excel'">导出excel</a></vxe-button>
           </template>
         </vxe-toolbar>
 
@@ -22,8 +21,7 @@
           :data="tableData"
           :edit-render={}
 	  highlight-hover-row
-
-          @cell-dblclick='insertevent'
+	@cell-dblclick='insertevent'
           :edit-config="{trigger: 'click', mode: 'row'}">
 
           <vxe-table-column width="50" type="seq" title="序号"></vxe-table-column>
@@ -40,29 +38,24 @@
           <vxe-table-column field="edinggonglv" title="额定功率" :edit-render="{name: 'textarea'}" ></vxe-table-column>
           <vxe-table-column field="yongdiandengji" title="用电等级" :edit-render="{name: 'textarea'}"></vxe-table-column>
           <vxe-table-column field="guanliip" title="管理IP" :edit-render="{name: 'textarea'}"></vxe-table-column>
-
-
-
           <vxe-table-column field="yewuip" title="业务IP" :edit-render="{name: 'textarea'}"></vxe-table-column>
-
-
-
           <vxe-table-column field="beizhu" title="备注" :edit-render="{name: 'textarea'}"></vxe-table-column>
+
           <vxe-table-column title="操作" width="10%"  v-if="save">
             <template v-slot="{ row }">
-              <template v-if="$refs.xTable.isActiveByRow(row)">
+              <template v-if="$refs.xTable.hasActiveRow(row)">
                 <vxe-button @click="saveRowEvent(row)">保存</vxe-button>
                 <vxe-button @click="cancelRowEvent(row)">取消</vxe-button>
               </template>
               <template v-else>
                 <vxe-button @click="editRowEvent(row)">编辑</vxe-button>
               </template>
-				<template v-if="xx" >
-                	<vxe-button @click="deleteRowEvent(row)">删除</vxe-button>
-				</template>
+		<template v-if="xx" >
+               	<vxe-button @click="deleteRowEvent(row)">删除</vxe-button>
+		</template>
             </template>
           </vxe-table-column>
-          </vxe-table>
+
         <vxe-pager
           align="center"
           :current-page.sync="page2.currentPage"
@@ -91,7 +84,6 @@ import headd from '@/components/head'
                 	pageSize: 20,
                 	totalResult: 200
               	},
-
                 tableData: [],
                 pnumber: '',
                 save: true,
@@ -193,19 +185,18 @@ import headd from '@/components/head'
             headd
         },
 
-
         mounted: function () {   //页面初始化
             this.gettask()
         },
 
-        methods: {
+        methods: {	
             exportData () {
                 this.$http.get('/init/machine_excel')
                 },
             deleteRowEvent (row) {
                 this.$http.get('/init/deletemachine', {params: { taskid: row.id}}).then(response => {
-					this.$XModal.message({ message: response.data.message, status: 'success' })
-					this.reload()
+			this.$XModal.message({ message: response.data.message, status: 'success' })
+			this.reload()
             })
             },
             editRowEvent (row) {
@@ -220,39 +211,11 @@ import headd from '@/components/head'
               this.$refs.xTable.clearActived()
             },
 
-            /*
-            init () {
-		        var cpage = sessionStorage.getItem('currentPage')
-		        var pagesize = sessionStorage.getItem('pagesize')
-
-            	if (cpage === "null") {
-                   this.page2.currentPage=1
-                    } else {
-			            this.page2.currentPage= cpage
-                };
-
-                const role = this.$cookies.get("role")
-                if (role === "11") {
-                    this.role_sale = false
-                }; 
-
-                if (role === "1" || role === "11") {
-                    } else {
-                        this.$router.push({
-                            path:'/login',
-                            query:{
-                                id:this.id ,
-                            }
-                         })
-                    };
-		        this.gettask(this.page2.currentPage, pagesize)
-            },
-            */
-
             handlePageChange () {
-		        var pagesize = sessionStorage.getItem('pagesize')
-		        sessionStorage.setItem('pagesize', this.page2.pageSize)
-		        sessionStorage.setItem('pagenumber', this.page2.currentPage)
+	        var pagesize = sessionStorage.getItem('pagesize')
+	        sessionStorage.setItem('pagesize', this.page2.pageSize)
+	        sessionStorage.setItem('pagenumber', this.page2.currentPage)
+
                 if (this.page2.pageSize == pagesize) {
 		            sessionStorage.setItem('pagenumber', this.page2.currentPage)
                 }else {
@@ -292,7 +255,10 @@ import headd from '@/components/head'
             update (row) {
                 let insertRecords = this.$refs.xTable.getInsertRecords()
                 this.$http.get('/init/updatemachine', {params: {data: row}}).then(response => {
+			if (response.data) {
 			    this.$XModal.message({ message: '保存成功', status: 'success' })
+				}else {
+			}
                 })
             },
             	

@@ -3,17 +3,12 @@ from flask_restful import Resource, Api, reqparse
 
 import pymysql
 import json
-import MySQLdb
 
 from user import Login, UserAdd, User
-from task import AddTask, GetTask, UpdateTask, DeleTask
+#from task import AddTask, GetTask, UpdateTask, DeleTask
 from machine import Addmachine, Getmachine, Updatemachine, Delemachine
 from machine_excel import Getmachine_excel
 
-
-db = pymysql.connect("127.0.0.1","mysql","mysql","ysman" )
-cursor =db. cursor()
-#data = cursor.fetchone()
 
 app = Flask(__name__)
 api = Api(app)
@@ -36,8 +31,6 @@ class Year(Resource):
         self.cursor =self.db. cursor()
 
     def get(self):
-        self.db = pymysql.connect("127.0.0.1","mysql","mysql","ysman" )
-        self.cursor = self.db.cursor()
         sql = '''select years from xyear'''
         self.cursor.execute(sql)
         res = self.cursor.fetchall()
