@@ -47,7 +47,7 @@ class Delemachine(Resource):
         year = self.args["year"]
 
         obj = Getmachine()
-        data  = obj.get(year)
+        data  = obj.get()
         if not taskid:
             return {"data": data["data"], "message": "请规范操作"}
 
