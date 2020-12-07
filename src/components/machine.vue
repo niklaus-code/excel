@@ -33,7 +33,7 @@
           <vxe-table-column field="jifangweizhi" title="机房位置" :edit-render="{name: 'textarea'}"></vxe-table-column>
           <vxe-table-column field="jiguiweizhi" title="机柜位置" :edit-render="{name: 'textarea'}"></vxe-table-column>
           <vxe-table-column field="gaodu" title="高度（U）"  :edit-render="{name: 'select',  options: heightlist}"></vxe-table-column>
-          <vxe-table-column field="shebeizhuangtai" title="设备状态" :edit-render="{name: 'select',  options: statuslist}" ></vxe-table-column>
+          <vxe-table-column field="shebeizhuangtai" v-bind:class="{ 'active': isActive }"  title="设备状态" :edit-render="{name: 'select',  options: statuslist}" ></vxe-table-column>
           <vxe-table-column field="edinggonglv" title="额定功率" :edit-render="{name: 'textarea'}" ></vxe-table-column>
           <vxe-table-column field="yongdiandengji" title="用电等级" :edit-render="{name: 'textarea'}"></vxe-table-column>
           <vxe-table-column field="guanliip" title="管理IP" :edit-render="{name: 'textarea'}"></vxe-table-column>
@@ -78,6 +78,7 @@ import headd from '@/components/head'
 	inject:['reload'],
         data () {
             return {
+                isActive: true,
                 role_sale: true,
 
           	    page2: {
@@ -231,9 +232,9 @@ import headd from '@/components/head'
                		status: "0",
 			        priority: "1"
               		}
-		    this.$refs.xTable.insertAt(record, row)
-                .then(({ row }) => this.$refs.xTable.setActiveCell(row, 'status'))
-            },
+		        this.$refs.xTable.insertAt(record, row)
+                    .then(({ row }) => this.$refs.xTable.setActiveCell(row, 'status'))
+                },
 
             update (row) {
 		        var pagesize = sessionStorage.getItem('pagesize')
@@ -251,15 +252,12 @@ import headd from '@/components/head'
             },
             	
             cellClassName ({ row, column}) {
-		        if (column.property === 'status') {
-                	if (row.status === "1") {
+		        if (column.property === 'shebeizhuangtai') {
+                	if (row.shebeizhuangtai === 1) {
+                    	return 'col-gray'
+                    } else {
                     	return 'col-green'
-                    }
-            	}
-		    if (column.property === 'priority') {
-                if (row.priority === "2") {
-                	return 'col-red'
-                    }
+                        }
             	}
             },
 
@@ -282,20 +280,12 @@ import headd from '@/components/head'
         }
 </script>
 <style >
-.vxe-table .vxe-body--column.col-green {
-  background-color: green;
-  color: #fff;
-}
-.vxe-table .vxe-body--column.col-red {
-  background-color: red;
-  color: #fff;
-}
-.vxe-table .vxe-body--row.row-red {
-  background-color: red;
-  color: #fff;
-}
-.vxe-table .vxe-body--row.row-gray {
-  background-color: gray;
-  color: #fff;
-}
+ .mytable-style .vxe-body--column.col-green {
+          background-color: #009933;
+          color: #fff;
+    }
+  .mytable-style .vxe-body--column.col-gray {
+          background-color: #C0C0C0;
+          color: #fff;
+    }
 </style>
