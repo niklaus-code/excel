@@ -172,8 +172,12 @@ import headd from '@/components/head'
                 },
             deleteRowEvent (row) {
                 this.$http.get('/init/deletemachine', {params: { taskid: row.id}}).then(response => {
-			this.$XModal.message({ message: response.data.message, status: 'success' })
-			this.reload()
+			if (response.data.message) {
+                		this.tableData = response.data.data.data
+			    this.$XModal.message({ message: '删除成功', status: 'success' })
+				}else {
+			    this.$XModal.message({ message: '删除失败', status: 'success' })
+			}
             })
             },
             editRowEvent (row) {
@@ -231,8 +235,8 @@ import headd from '@/components/head'
             update (row) {
                 let insertRecords = this.$refs.xTable.getInsertRecords()
                 this.$http.get('/init/updatemachine', {params: {data: row}}).then(response => {
-			if (response.data) {
-                		this.tableData = response.data.data
+			if (response.data.message) {
+                		this.tableData = response.data.data.data
 			    this.$XModal.message({ message: '保存成功', status: 'success' })
 				}else {
 			    this.$XModal.message({ message: '保存失败', status: 'success' })

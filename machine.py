@@ -49,15 +49,18 @@ class Delemachine(Resource):
         year = self.args["year"]
 
         obj = Getmachine()
-        data  = obj.get()
         if not taskid:
             return {"data": data["data"], "message": "请规范操作"}
 
-        sql = '''update machineroom set status=0 where id = %d ''' % taskid 
-        self.cursor.execute(sql)
-        self.db.commit()
-        return {"data": data, "message": "删除成功"}
-
+        try:
+            sql = '''update machineroom set status=0 where id = %d ''' % taskid 
+            self.cursor.execute(sql)
+            self.db.commit()
+            data  = obj.get()
+            return {"data": data, "message": True}
+        except:
+            return {"data": data, "message": False}
+          
 
 class Addmachine(Resource):
     def __init__(self):
