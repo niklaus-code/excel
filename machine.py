@@ -77,7 +77,6 @@ class Addmachine(Resource):
         userid = request.cookies.get('userid')
 
         obj = Getmachine()
-        data  = obj.get()
 
         if not sdata:
             return {"data": data["data"], "message": "您还没有输入数据"}
@@ -85,11 +84,16 @@ class Addmachine(Resource):
         if not sdata[0]["zichanbiaoqian"]:
             return {"data": data["data"], "message": "您还没有输入数据"}
 
-        for one in sdata:
-            sql = '''insert into machineroom (zichanbiaoqian, pinpai, xinghao, xuliehao, shebeileixing, shujuzhongxinweizhi, jifangweizhi, jiguiweizhi, gaodu, shebeizhuangtai, edinggonglv, yongdiandengji, guanliip, yewuip, beizhu, status) values ('%s', '%s', '%s','%s', '%s','%s', '%s', '%s', '%s','%s', '%s','%s', '%s','%s', '%s', %d)''' % (one["zichanbiaoqian"], one["pinpai"], one["xinghao"], one["xuliehao"], one.get("shebeileixing") if one["shebeileixing"] else "1", one.get("shujuzhongxinweizhi") if one["shujuzhongxinweizhi"] else '1', one["jifangweizhi"],one["jiguiweizhi"], one.get("gaodu") if one["gaodu"] else "1", one["shebeizhuangtai"] if one.get("shebeizhuangtai") else "1", one["edinggonglv"], one["yongdiandengji"], one["guanliip"], one["yewuip"], one["beizhu"], 1)
-            self.cursor.execute(sql)
-            self.db.commit()
-        return {"data": data, "message": "成功"}
+        try:
+            for one in sdata:
+                sql = '''insert into machineroom (zichanbiaoqian, pinpai, xinghao, xuliehao, shebeileixing, shujuzhongxinweizhi, jifangweizhi, jiguiweizhi, gaodu, shebeizhuangtai, edinggonglv, yongdiandengji, guanliip, yewuip, beizhu, status) values ('%s', '%s', '%s','%s', '%s','%s', '%s', '%s', '%s','%s', '%s','%s', '%s','%s', '%s', %d)''' % (one["zichanbiaoqian"], one["pinpai"], one["xinghao"], one["xuliehao"], one.get("shebeileixing") if one["shebeileixing"] else "1", one.get("shujuzhongxinweizhi") if one["shujuzhongxinweizhi"] else '1', one["jifangweizhi"],one["jiguiweizhi"], one.get("gaodu") if one["gaodu"] else "1", one["shebeizhuangtai"] if one.get("shebeizhuangtai") else "1", one["edinggonglv"], one["yongdiandengji"], one["guanliip"], one["yewuip"], one["beizhu"], 1)
+                self.cursor.execute(sql)
+                self.db.commit()
+                data  = obj.get()
+                return {"data": data, "message": True}
+        except:
+                return {"data": data, "message": False}
+               
 
 
 class Getmachine(Resource):

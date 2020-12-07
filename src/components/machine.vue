@@ -261,8 +261,12 @@ import headd from '@/components/head'
                 let insertRecords = this.$refs.xTable.getInsertRecords()
 		console.log(JSON.stringify(insertRecords))
                 this.$http.get('/init/addmachine', {params: {data: JSON.stringify(insertRecords)}}).then(response => {
-			    this.$XModal.message({ message: response.data.message, status: 'success' })
-			    this.reload()
+			if (response.data.message) {
+                		this.tableData = response.data.data.data
+			    this.$XModal.message({ message: '保存成功', status: 'success' })
+				}else {
+			    this.$XModal.message({ message: '保存失败', status: 'success' })
+			}
                 })
             }
           }
