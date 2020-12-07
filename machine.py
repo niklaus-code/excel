@@ -25,11 +25,11 @@ class Updatemachine(Resource):
         year = self.args["year"]
 
         obj = Getmachine()
-        data  = obj.get()
         try:
             sql = '''update machineroom set zichanbiaoqian='%s', pinpai='%s', xinghao='%s', xuliehao='%s', shebeileixing='%s', shujuzhongxinweizhi='%s', jifangweizhi='%s',  jiguiweizhi='%s',gaodu='%s', shebeizhuangtai='%s', edinggonglv='%s', yongdiandengji='%s', guanliip='%s', yewuip='%s', beizhu='%s' where id =%d ''' % (sdata["zichanbiaoqian"], sdata["pinpai"], sdata["xinghao"],sdata["xuliehao"], sdata["shebeileixing"], sdata["shujuzhongxinweizhi"], sdata["jifangweizhi"], sdata["jiguiweizhi"], sdata["gaodu"],sdata["shebeizhuangtai"],sdata["edinggonglv"],sdata["yongdiandengji"], sdata["guanliip"],sdata["yewuip"],sdata["beizhu"], int(sdata["id"]))
             self.cursor.execute(sql)
             self.db.commit()
+            data  = obj.get()
             return {"data": data, "message": True}
         except:
             return {"data": data, "message": False}

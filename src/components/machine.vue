@@ -3,8 +3,8 @@
         <headd></headd>
         <vxe-toolbar style="margin-top:20px">
           <template v-slot:buttons>
-            <vxe-button v-if="xx" @click="getInsertEvent()">保存</vxe-button>
-            <vxe-button v-if="xx" @click="insertEvent()">新增</vxe-button>
+            <vxe-button  @click="getInsertEvent()">保存</vxe-button>
+            <vxe-button  @click="insertEvent()">新增</vxe-button>
             <vxe-button ><a :href="'http://10.0.90.151/init/machine_excel'">导出excel</a></vxe-button>
           </template>
         </vxe-toolbar>
@@ -42,18 +42,21 @@
 
           <vxe-table-column title="操作" width="10%"  v-if="save">
             <template v-slot="{ row }">
-              <template v-if="$refs.xTable.hasActiveRow(row)">
-                <vxe-button @click="saveRowEvent(row)">保存</vxe-button>
-                <vxe-button @click="cancelRowEvent(row)">取消</vxe-button>
-              </template>
-              <template v-else>
-                <vxe-button @click="editRowEvent(row)">编辑</vxe-button>
-              </template>
-		<template v-if="xx" >
-               	<vxe-button @click="deleteRowEvent(row)">删除</vxe-button>
+              	<template v-if="$refs.xTable.hasActiveRow(row)">
+                	<vxe-button @click="saveRowEvent(row)">保存</vxe-button>
+                	<vxe-button @click="cancelRowEvent(row)">取消</vxe-button>
+              	</template>
+
+              	<template v-else>
+                	<vxe-button @click="editRowEvent(row)">编辑</vxe-button>
+              	</template>
+
+              	<template>
+               		<vxe-button @click="deleteRowEvent(row)">删除</vxe-button>
 		</template>
             </template>
           </vxe-table-column>
+	 </vxe-table>
 
         <vxe-pager
           align="center"
@@ -75,7 +78,6 @@ import headd from '@/components/head'
 	inject:['reload'],
         data () {
             return {
-		        xx: true,
                 role_sale: true,
 
           	    page2: {
@@ -175,11 +177,9 @@ import headd from '@/components/head'
             })
             },
             editRowEvent (row) {
-		this.xx=false
                 this.$refs.xTable.setActiveRow(row)
             },
             saveRowEvent (row) {
-		this.xx=true
               this.update(row)
               this.cancelRowEvent()
             },
@@ -232,7 +232,7 @@ import headd from '@/components/head'
                 let insertRecords = this.$refs.xTable.getInsertRecords()
                 this.$http.get('/init/updatemachine', {params: {data: row}}).then(response => {
 			if (response.data) {
-				this.reload()
+                		this.tableData = response.data.data
 			    this.$XModal.message({ message: '保存成功', status: 'success' })
 				}else {
 			    this.$XModal.message({ message: '保存失败', status: 'success' })
