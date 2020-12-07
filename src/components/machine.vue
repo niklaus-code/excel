@@ -264,9 +264,12 @@ import headd from '@/components/head'
             },
 
             getInsertEvent () {
+		        var pagesize = sessionStorage.getItem('pagesize')
+		        var pagenumber = sessionStorage.getItem('pagenumber')
+
                 let insertRecords = this.$refs.xTable.getInsertRecords()
 		        console.log(JSON.stringify(insertRecords))
-                this.$http.get('/init/addmachine', {params: {data: JSON.stringify(insertRecords)}}).then(response => {
+                this.$http.get('/init/addmachine', {params: {data: JSON.stringify(insertRecords), pagenumber: pagenumber, pagesize:pagesize}}).then(response => {
 			    if (response.data.message) {
                	    this.tableData = response.data.data.data
 			        this.$XModal.message({ message: '保存成功', status: 'success' })

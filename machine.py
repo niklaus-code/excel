@@ -71,14 +71,16 @@ class Addmachine(Resource):
         self.cursor =self.db. cursor()
         self.get_args = reqparse.RequestParser()
         self.get_args.add_argument("data",  type=str)
-        self.get_args.add_argument("year",  type=int)
+        self.get_args.add_argument("pagenumber", type=int, default=1)
+        self.get_args.add_argument("pagesize", type=int, default=20)
         self.args = self.get_args.parse_args()
 
     def get(self):
         sdata = json.loads(self.args["data"])
-        year = self.args["year"]
         userid = request.cookies.get('userid')
 
+        pagenumber = self.args["pagenumber"]
+        pagesize = self.args["pagesize"]
         obj = Getmachine()
 
         if not sdata:
@@ -94,7 +96,7 @@ class Addmachine(Resource):
                 sql = '''insert into machineroom (zichanbiaoqian, pinpai, xinghao, xuliehao, shebeileixing, shujuzhongxinweizhi, jifangweizhi, jiguiweizhi, gaodu, shebeizhuangtai, edinggonglv, yongdiandengji, guanliip, yewuip, beizhu, status) values ('%s', '%s', '%s','%s', '%s','%s', '%s', '%s', '%s','%s', '%s','%s', '%s','%s', '%s', %d)''' % (one["zichanbiaoqian"], one["pinpai"], one["xinghao"], one["xuliehao"], one.get("shebeileixing") if one["shebeileixing"] else "1", one.get("shujuzhongxinweizhi") if one["shujuzhongxinweizhi"] else '1', one["jifangweizhi"],one["jiguiweizhi"], one.get("gaodu") if one["gaodu"] else "1", one["shebeizhuangtai"] if one.get("shebeizhuangtai") else "1", one["edinggonglv"], one["yongdiandengji"], one["guanliip"], one["yewuip"], one["beizhu"], 1)
                 self.cursor.execute(sql)
                 self.db.commit()
-                data  = obj.get()
+                data  = obj.get(pagenumber, pagesize)
                 return {"data": data, "message": True}
         except:
                 return {"data": data, "message": False}
