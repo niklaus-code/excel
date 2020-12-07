@@ -17,19 +17,20 @@ class Updatemachine(Resource):
         self.cursor =self.db. cursor()
         self.get_args = reqparse.RequestParser()
         self.get_args.add_argument("data",  type=str)
-        self.get_args.add_argument("year",  type=int)
+        self.get_args.add_argument("pagenumber", type=int, default=1)
+        self.get_args.add_argument("pagesize", type=int, default=20)
         self.args = self.get_args.parse_args()
 
     def get(self):
         sdata = json.loads(self.args["data"])
-        year = self.args["year"]
-
+        pagenumber = self.args["pagenumber"]
+        pagesize = self.args["pagesize"]
         obj = Getmachine()
         try:
             sql = '''update machineroom set zichanbiaoqian='%s', pinpai='%s', xinghao='%s', xuliehao='%s', shebeileixing='%s', shujuzhongxinweizhi='%s', jifangweizhi='%s',  jiguiweizhi='%s',gaodu='%s', shebeizhuangtai='%s', edinggonglv='%s', yongdiandengji='%s', guanliip='%s', yewuip='%s', beizhu='%s' where id =%d ''' % (sdata["zichanbiaoqian"], sdata["pinpai"], sdata["xinghao"],sdata["xuliehao"], sdata["shebeileixing"], sdata["shujuzhongxinweizhi"], sdata["jifangweizhi"], sdata["jiguiweizhi"], sdata["gaodu"],sdata["shebeizhuangtai"],sdata["edinggonglv"],sdata["yongdiandengji"], sdata["guanliip"],sdata["yewuip"],sdata["beizhu"], int(sdata["id"]))
             self.cursor.execute(sql)
             self.db.commit()
-            data  = obj.get()
+            data  = obj.get(pagenumber, pagesize)
             return {"data": data, "message": True}
         except:
             return {"data": data, "message": False}
@@ -41,12 +42,14 @@ class Delemachine(Resource):
         self.cursor =self.db. cursor()
         self.get_args = reqparse.RequestParser()
         self.get_args.add_argument("taskid",  type=int)
-        self.get_args.add_argument("year",  type=int)
+        self.get_args.add_argument("pagenumber", type=int, default=1)
+        self.get_args.add_argument("pagesize", type=int, default=20)
         self.args = self.get_args.parse_args()
 
     def get(self):
         taskid = self.args["taskid"]
-        year = self.args["year"]
+        pagenumber = self.args["pagenumber"]
+        pagesize = self.args["pagesize"]
 
         obj = Getmachine()
         if not taskid:
@@ -56,7 +59,7 @@ class Delemachine(Resource):
             sql = '''update machineroom set status=0 where id = %d ''' % taskid 
             self.cursor.execute(sql)
             self.db.commit()
-            data  = obj.get()
+            data  = obj.get(pagenumber, pagesize)
             return {"data": data, "message": True}
         except:
             return {"data": data, "message": False}
@@ -79,10 +82,12 @@ class Addmachine(Resource):
         obj = Getmachine()
 
         if not sdata:
-            return {"data": data["data"], "message": "您还没有输入数据"}
+            data  = obj.get()
+            return {"data": data["data"], "message": False}
 
         if not sdata[0]["zichanbiaoqian"]:
-            return {"data": data["data"], "message": "您还没有输入数据"}
+            data  = obj.get()
+            return {"data": data["data"], "message": False}
 
         try:
             for one in sdata:
@@ -102,7 +107,7 @@ class Getmachine(Resource):
         self.cursor = self.db.cursor()
         self.get_args = reqparse.RequestParser()
         self.get_args.add_argument("pagenumber",  type=int, default=1)
-        self.get_args.add_argument("pageSize",  type=int, default=10)
+        self.get_args.add_argument("pageSize",  type=int, default=20)
         self.args = self.get_args.parse_args()
 
     def total_page(self, offset, userid):
@@ -111,10 +116,12 @@ class Getmachine(Resource):
         number = self.cursor.fetchone()
         return number[0]
 
-    def get(self):
+    def get(self, pagenumber=0, pagesize=0):
         userid = request.cookies.get('userid')
-        pagenumber = self.args["pagenumber"]
-        pagesize = self.args["pageSize"]
+        if not pagenumber or not  pagesize:
+            pagenumber = self.args["pagenumber"]
+            pagesize = self.args["pageSize"]
+
         total_page = self.total_page(pagesize, userid)
 
         start_page = (pagenumber-1) * pagesize

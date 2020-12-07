@@ -171,30 +171,33 @@ import headd from '@/components/head'
                 this.$http.get('/init/machine_excel')
                 },
             deleteRowEvent (row) {
-                this.$http.get('/init/deletemachine', {params: { taskid: row.id}}).then(response => {
-			if (response.data.message) {
-                		this.tableData = response.data.data.data
-			    this.$XModal.message({ message: '删除成功', status: 'success' })
+		        var pagesize = sessionStorage.getItem('pagesize')
+		        var pagenumber = sessionStorage.getItem('pagenumber')
+
+                this.$http.get('/init/deletemachine', {params: {taskid: row.id, pagesize: pagesize, pagenumber: pagenumber}}).then(response => {
+			    if (response.data.message) {
+               	    this.tableData = response.data.data.data
+			        this.$XModal.message({ message: '删除成功', status: 'success' })
 				}else {
-			    this.$XModal.message({ message: '删除失败', status: 'success' })
-			}
-            })
+			        this.$XModal.message({ message: '删除失败', status: 'success' })
+			        }
+                })
             },
             editRowEvent (row) {
                 this.$refs.xTable.setActiveRow(row)
             },
             saveRowEvent (row) {
-              this.update(row)
-              this.cancelRowEvent()
+                this.update(row)
+                this.cancelRowEvent()
             },
             cancelRowEvent (row) {
-              this.$refs.xTable.clearActived()
+                this.$refs.xTable.clearActived()
             },
 
             handlePageChange () {
-	        var pagesize = sessionStorage.getItem('pagesize')
-	        sessionStorage.setItem('pagesize', this.page2.pageSize)
-	        sessionStorage.setItem('pagenumber', this.page2.currentPage)
+	            var pagesize = sessionStorage.getItem('pagesize')
+	            sessionStorage.setItem('pagesize', this.page2.pageSize)
+	            sessionStorage.setItem('pagenumber', this.page2.currentPage)
 
                 if (this.page2.pageSize == pagesize) {
 		            sessionStorage.setItem('pagenumber', this.page2.currentPage)
@@ -216,7 +219,7 @@ import headd from '@/components/head'
 
                 this.page2.pageSize = pagesize
 
-                this.$http.get('/init/getmachine', {params: { pagenumber: pagenumber, pageSize: pagesize }}).then(response => {
+                this.$http.get('/init/getmachine', {params: {pagenumber: pagenumber, pageSize: pagesize }}).then(response => {
                 this.tableData = response.data.data
                 this.page2.totalResult = response.data.total_page
                 })
@@ -226,47 +229,50 @@ import headd from '@/components/head'
                 this.save = false;
                 let record = {
                		status: "0",
-			priority: "1"
+			        priority: "1"
               		}
-		this.$refs.xTable.insertAt(record, row)
+		    this.$refs.xTable.insertAt(record, row)
                 .then(({ row }) => this.$refs.xTable.setActiveCell(row, 'status'))
             },
 
             update (row) {
+		        var pagesize = sessionStorage.getItem('pagesize')
+		        var pagenumber = sessionStorage.getItem('pagenumber')
+
                 let insertRecords = this.$refs.xTable.getInsertRecords()
-                this.$http.get('/init/updatemachine', {params: {data: row}}).then(response => {
-			if (response.data.message) {
-                		this.tableData = response.data.data.data
-			    this.$XModal.message({ message: '保存成功', status: 'success' })
-				}else {
-			    this.$XModal.message({ message: '保存失败', status: 'success' })
-			}
-                })
+                this.$http.get('/init/updatemachine', {params: {data: row, pagenumber: pagenumber, pagesize:pagesize}}).then(response => {
+			    if (response.data.message) {
+               	    this.tableData = response.data.data.data
+			        this.$XModal.message({ message: '保存成功', status: 'success' })
+				    }else {
+			        this.$XModal.message({ message: '保存失败', status: 'success' })
+			            }
+                    })
             },
             	
             cellClassName ({ row, column}) {
 		        if (column.property === 'status') {
                 	if (row.status === "1") {
-                    		return 'col-green'
+                    	return 'col-green'
                     }
             	}
 		    if (column.property === 'priority') {
-                	if (row.priority === "2") {
-                    		return 'col-red'
+                if (row.priority === "2") {
+                	return 'col-red'
                     }
             	}
             },
 
             getInsertEvent () {
                 let insertRecords = this.$refs.xTable.getInsertRecords()
-		console.log(JSON.stringify(insertRecords))
+		        console.log(JSON.stringify(insertRecords))
                 this.$http.get('/init/addmachine', {params: {data: JSON.stringify(insertRecords)}}).then(response => {
-			if (response.data.message) {
-                		this.tableData = response.data.data.data
-			    this.$XModal.message({ message: '保存成功', status: 'success' })
+			    if (response.data.message) {
+               	    this.tableData = response.data.data.data
+			        this.$XModal.message({ message: '保存成功', status: 'success' })
 				}else {
-			    this.$XModal.message({ message: '保存失败', status: 'success' })
-			}
+			        this.$XModal.message({ message: '保存失败', status: 'success' })
+			        }
                 })
             }
           }
