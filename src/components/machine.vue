@@ -176,10 +176,11 @@ import headd from '@/components/head'
             })
             },
             editRowEvent (row) {
-		        this.xx=false
+		this.xx=false
                 this.$refs.xTable.setActiveRow(row)
             },
             saveRowEvent (row) {
+		this.xx=true
               this.update(row)
               this.cancelRowEvent()
             },
