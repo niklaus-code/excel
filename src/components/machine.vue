@@ -24,7 +24,6 @@
 	@cell-dblclick='insertevent'
           :edit-config="{trigger: 'click', mode: 'row'}">
 
-          <vxe-table-column width="50" type="seq" title="序号"></vxe-table-column>
           <vxe-table-column field="zichanbiaoqian" title="资产标签" :edit-render="{name: 'textarea'}"></vxe-table-column>
           <vxe-table-column field="pinpai" title="品牌" :edit-render="{name: 'textarea'}"></vxe-table-column>
           <vxe-table-column field="xinghao" title="型号" :edit-render="{name: 'textarea'}" ></vxe-table-column>
