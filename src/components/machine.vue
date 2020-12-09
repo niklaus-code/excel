@@ -9,7 +9,7 @@
             <vxe-button>
                 <label class="upFile">
                     <span class="upFile" style="text-align: center;float: left;">倒入数据</span>
-                    <input class="upFile" type="file" name="upload" @change="upload" accept=".xlsx" style="display:none;">
+                    <input class="upFile" type="file" name="upload" @change="upload" accept=".xlsx, .xls" style="display:none;">
                 </label>
             </vxe-button>
           </template>
