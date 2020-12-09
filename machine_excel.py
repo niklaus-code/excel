@@ -29,7 +29,6 @@ class Getmachine_excel(Resource):
         all_machine = []
         for machine in res:
             machine_l = list(machine)
-            print(machine_l)
             if machine_l[9] == 1:
                 machine_l[9] = "关机"
             else:
