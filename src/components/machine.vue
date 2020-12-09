@@ -5,7 +5,13 @@
           <template v-slot:buttons>
             <vxe-button  @click="getInsertEvent()">保存</vxe-button>
             <vxe-button  @click="insertEvent()">新增</vxe-button>
-            <vxe-button ><a :href="'http://10.0.90.151/init/machine_excel'">导出excel</a></vxe-button>
+            <vxe-button><a :href="'http://10.0.90.151/init/machine_excel'">导出excel</a></vxe-button>
+            <vxe-button>
+                <label class="upFile">
+                    <span class="upFile" style="text-align: center;float: left;">倒入excel</span>
+                    <input class="upFile" type="file" name="upload" @change="upload"  style="display:none;">
+                </label>
+            </vxe-button>
           </template>
         </vxe-toolbar>
 
@@ -20,8 +26,8 @@
           :row-class-name="rowClassName"
           :data="tableData"
           :edit-render={}
-	  highlight-hover-row
-	@cell-dblclick='insertevent'
+            highlight-hover-row
+	        @cell-dblclick='insertevent'
           :edit-config="{trigger: 'click', mode: 'row'}">
 
           <vxe-table-column field="zichanbiaoqian" title="资产标签" :edit-render="{name: 'textarea'}"></vxe-table-column>
@@ -261,6 +267,25 @@ import headd from '@/components/head'
             	}
             },
 
+            upload(e){
+                let file = e.target.files[0];
+                let param = new FormData();     //创建form对象
+                param.append('file',file);  //通过append向form对象添加数据
+                console.log(param.get('file'));     //FormData私有类对象，访问不到，可以通过get判断值是否传进去
+                let config = {
+                    headers:{'Content-Type':'multipart/form-data'}
+                }; //添加请求头
+
+                this.$http.post('/init/upload',param,config)
+                .then(response=>{
+                    if (response.data) {
+                        alert("upload success")
+                        }else {
+                        alert("upload failed")
+                        }
+                })
+            },
+
             getInsertEvent () {
 		        var pagesize = sessionStorage.getItem('pagesize')
 		        var pagenumber = sessionStorage.getItem('pagenumber')
@@ -288,4 +313,5 @@ import headd from '@/components/head'
           background-color: #C0C0C0;
           color: #fff;
     }
+    label {margin-bottom: -10px}
 </style>

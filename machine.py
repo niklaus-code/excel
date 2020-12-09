@@ -127,7 +127,7 @@ class Getmachine(Resource):
         total_page = self.total_page(pagesize, userid)
 
         start_page = (pagenumber-1) * pagesize
-        sql = '''select * from machineroom  where status = 1 order by id desc limit %d, %d''' %(start_page, pagesize)
+        sql = '''select * from machineroom  where status = 1 order by shujuzhongxinweizhi desc, jiguiweizhi limit %d, %d''' %(start_page, pagesize)
         self.cursor.execute(sql)
         res = self.cursor.fetchall()
         ll = []
