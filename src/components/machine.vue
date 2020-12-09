@@ -1,12 +1,14 @@
 <template>
     <div class="container-fluid">
         <headd></headd>
-        <vxe-toolbar style="margin-top:20px">
+         <div class="col-md-12" style="margin-top:20px;">
+         <div class="col-md-10">
+        <vxe-toolbar>
           <template v-slot:buttons>
             <vxe-button  @click="getInsertEvent()">保存</vxe-button>
             <vxe-button  @click="insertEvent()">新增</vxe-button>
             <vxe-button><a :href="'http://10.0.90.151/init/machine_excel'">导出数据(xlsx)</a></vxe-button>
-            <vxe-button>
+            <vxe-button style="float:right">
                 <label class="upFile">
                     <span class="upFile" style="text-align: center;float: left;">倒入数据(xls, xlsx, csv)</span>
                     <input class="upFile" type="file" name="upload" @change="upload" accept=".xlsx, .xls, .csv" style="display:none;">
@@ -14,8 +16,12 @@
             </vxe-button>
           </template>
         </vxe-toolbar>
+        </div>
 
-       
+         <div class="col-md-2" style="margin-top:10px">
+                <p style="float:right"><strong>设备总数:{{page2.totalResult}}</strong></p>
+         </div>
+         </div>
      <vxe-table
 	  resizable
           border
