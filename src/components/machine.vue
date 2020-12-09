@@ -1,8 +1,8 @@
 <template>
     <div class="container-fluid">
         <headd></headd>
-         <div class="col-md-12" style="margin-top:20px;">
-         <div class="col-md-10">
+         <div class="col-md-12" style="margin-top:20px;padding-left:0">
+         <div class="col-md-10" style="padding-left:0">
         <vxe-toolbar>
           <template v-slot:buttons>
             <vxe-button  @click="getInsertEvent()">保存</vxe-button>
