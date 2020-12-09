@@ -55,9 +55,6 @@
 
               	<template v-else>
                 	<vxe-button @click="editRowEvent(row)">编辑</vxe-button>
-              	</template>
-
-              	<template>
                		<vxe-button @click="deleteRowEvent(row)">删除</vxe-button>
 		</template>
             </template>
@@ -65,16 +62,14 @@
 	 </vxe-table>
 
         <vxe-pager
-          align="center"
-          :current-page.sync="page2.currentPage"
-          :page-size.sync="page2.pageSize"
-          :total="page2.totalResult"
-	  :layouts="['Sizes', 'PrevPage', 'JumpNumber', 'NextPage', 'Total']"
-	  @page-change="handlePageChange"
-		>
+            align="center"
+            :current-page.sync="page2.currentPage"
+            :page-size.sync="page2.pageSize"
+            :total="page2.totalResult"
+	        :layouts="['Sizes', 'PrevPage', 'JumpNumber', 'NextPage', 'Total']"
+	        @page-change="handlePageChange"
+		    >
         </vxe-pager>
-
-
         </div>
 </template>
 
