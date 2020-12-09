@@ -127,34 +127,37 @@ class Getmachine(Resource):
         total_page = self.total_page(pagesize, userid)
 
         start_page = (pagenumber-1) * pagesize
-        sql = '''select * from machineroom  where status = 1 order by shujuzhongxinweizhi desc, jiguiweizhi limit %d, %d''' %(start_page, pagesize)
-        self.cursor.execute(sql)
-        res = self.cursor.fetchall()
-        ll = []
-        for one in res:
-            u = one[2]
-            if not one[2] or one[2] == "None":
-                u = "其他"
-            dd = {}
-            dd["id"] = one[0]
-            dd["zichanbiaoqian"] = one[1]
-            dd["pinpai"] = one[2]
-            dd["xinghao"] = one[3]
-            dd["xuliehao"] = one[4]
-            dd["shebeileixing"] = one[5]
-            dd["shujuzhongxinweizhi"] = one[6]
-            dd["jifangweizhi"] = one[7]
-            dd["jiguiweizhi"] = one[8]
-            dd["gaodu"] = one[9]
-            dd["shebeizhuangtai"] = one[10]
-            dd["edinggonglv"] = one[11]
-            dd["yongdiandengji"] = one[12]
-            dd["guanliip"] = one[13]
-            dd["yewuip"] = one[14]
-            dd["beizhu"] = one[15]
-            dd["create_time"] = str(one[16])
-            ll.append(dd)
-        res = {}
-        res["data"] = ll
-        res["total_page"] = total_page
-        return res
+        try:
+            sql = '''select * from machineroom  where status = 1 order by shujuzhongxinweizhi desc, jiguiweizhi limit %d, %d''' %(start_page, pagesize)
+            self.cursor.execute(sql)
+            res = self.cursor.fetchall()
+            ll = []
+            for one in res:
+                u = one[2]
+                if not one[2] or one[2] == "None":
+                    u = "其他"
+                dd = {}
+                dd["id"] = one[0]
+                dd["zichanbiaoqian"] = one[1]
+                dd["pinpai"] = one[2]
+                dd["xinghao"] = one[3]
+                dd["xuliehao"] = one[4]
+                dd["shebeileixing"] = one[5]
+                dd["shujuzhongxinweizhi"] = one[6]
+                dd["jifangweizhi"] = one[7]
+                dd["jiguiweizhi"] = one[8]
+                dd["gaodu"] = one[9]
+                dd["shebeizhuangtai"] = one[10]
+                dd["edinggonglv"] = one[11]
+                dd["yongdiandengji"] = one[12]
+                dd["guanliip"] = one[13]
+                dd["yewuip"] = one[14]
+                dd["beizhu"] = one[15]
+                dd["create_time"] = str(one[16])
+                ll.append(dd)
+            res = {}
+            res["data"] = ll
+            res["total_page"] = total_page
+            return res
+        else:
+            return {}
