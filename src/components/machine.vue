@@ -5,11 +5,11 @@
           <template v-slot:buttons>
             <vxe-button  @click="getInsertEvent()">保存</vxe-button>
             <vxe-button  @click="insertEvent()">新增</vxe-button>
-            <vxe-button><a :href="'http://10.0.90.151/init/machine_excel'">导出数据</a></vxe-button>
+            <vxe-button><a :href="'http://10.0.90.151/init/machine_excel'">导出数据(xlsx)</a></vxe-button>
             <vxe-button>
                 <label class="upFile">
-                    <span class="upFile" style="text-align: center;float: left;">倒入数据</span>
-                    <input class="upFile" type="file" name="upload" @change="upload" accept=".xlsx, .xls" style="display:none;">
+                    <span class="upFile" style="text-align: center;float: left;">倒入数据(xls, xlsx, csv)</span>
+                    <input class="upFile" type="file" name="upload" @change="upload" accept=".xlsx, .xls, .csv" style="display:none;">
                 </label>
             </vxe-button>
           </template>
