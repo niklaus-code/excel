@@ -268,6 +268,9 @@ import headd from '@/components/head'
             },
 
             upload(e){
+		        var pagesize = sessionStorage.getItem('pagesize')
+		        var pagenumber = sessionStorage.getItem('pagenumber')
+
                 let file = e.target.files[0];
                 let param = new FormData();     //创建form对象
                 param.append('file',file);  //通过append向form对象添加数据
@@ -276,12 +279,13 @@ import headd from '@/components/head'
                     headers:{'Content-Type':'multipart/form-data'}
                 }; //添加请求头
 
-                this.$http.post('/init/upload',param,config)
+                this.$http.post('/init/upload',param,config, {pagesize: pagesize, pagenumber: pagenumber})
                 .then(response=>{
-                    if (response.data) {
-                        alert("upload success")
+                    if (response.data.message) {
+               	        this.tableData = response.data.data.data
+			            this.$XModal.message({ message: '上传成功', status: 'success' })
                         }else {
-                        alert("upload failed")
+			                this.$XModal.message({ message: '上传失败', status: 'fail' })
                         }
                 })
             },
@@ -297,7 +301,7 @@ import headd from '@/components/head'
                	    this.tableData = response.data.data.data
 			        this.$XModal.message({ message: '保存成功', status: 'success' })
 				}else {
-			        this.$XModal.message({ message: '保存失败', status: 'success' })
+			        this.$XModal.message({ message: '保存失败', status: 'fail' })
 			        }
                 })
             }

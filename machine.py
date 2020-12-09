@@ -159,5 +159,5 @@ class Getmachine(Resource):
             res["data"] = ll
             res["total_page"] = total_page
             return res
-        else:
+        except:
             return {}
