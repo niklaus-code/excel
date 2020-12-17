@@ -2,7 +2,12 @@
 <div class="container-fluid">
      <headd></headd>
     <div>
-        <p class="pp" style="margin-top:20px"><strong>今日下载数： {{count}}</strong><p>
+        <p class="pp" style="margin-top:20px">
+            <strong>今日下载数： {{count}}</strong>
+            <strong style="margin-left:20px">{{year}}年</strong>
+            <strong>{{month}}月</strong>
+            <strong>{{day}}日</strong>
+        <p>
 
         <table class="table table-bordered">
             <thead>
@@ -37,6 +42,9 @@
             return {
                 data: [],
                 count: 0,
+                year: 2020,
+                month: 1, 
+                day: 1,
             }
         },
 
@@ -53,6 +61,9 @@
                 this.$http.get('/init/modis_download').then(response => {
                     this.data = response.data.data
                     this.count = response.data.count
+                    this.year = response.data.year
+                    this.month = response.data.month
+                    this.day = response.data.day
                 })
             },
         }

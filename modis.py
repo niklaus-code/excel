@@ -3,6 +3,7 @@ from flask_restful import Resource, Api, reqparse
 
 import pymysql
 import json
+import datetime
 
 from user import Login, UserAdd, User
 
@@ -48,7 +49,15 @@ class Modis_download(Resource):
             data = {}
             data["data"] = ll
             data["count"] = len(ll)
+
+            dateobj = datetime.date.today()
+            tyear = dateobj.year
+            tmonth = dateobj.month
+            tday = dateobj.day
+
+            data["year"] = tyear    
+            data["month"] = tmonth
+            data["day"] = tday
             return data 
         except:
-            print(1)
             return {}
