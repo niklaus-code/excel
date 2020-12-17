@@ -37,11 +37,12 @@ class Modis_download(Resource):
         try:
             sql = '''select * from modis'''
             self.cursor.execute(sql)
-            res = self.cursor.fetchall()
+            res = list(self.cursor.fetchall())
             ll = []
             for one in res:
                 obj = {}
-                obj["filename"] = one[1]+ "/" + one[0]
+                obj["filename"] = one[0]
+                obj["filepath"] = one[1]+ "/" + one[0]
                 obj["create_time"] = str(one[2])
                 ll.append(obj)
             data = {}
