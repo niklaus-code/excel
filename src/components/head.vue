@@ -2,17 +2,9 @@
     <div class="row" style="background-color:#f5f5f5">
         <div class="col-md-12" style="height:50px">
             <div class="col-md-11" style="padding-top:10px; padding-left:4px">
-               <span style="font-size:22px"><strong>BigData</strong></span>
-             <!--  <span style="margin-left:15px"><router-link :to="{path: '/task'}">任务表</router-link></span>
-               <span v-if="privilege" style="margin-left:15px"> <router-link :to="{path: '/user'}">用户表</router-link></span> -->
+               <span style="font-size:22px"><strong><router-link :to="{path: '/'}">BigData</router-link></strong></span>
+                <span style="margin-left:20px"><router-link :to="{path: '/modisdownload'}">modis数据下载</router-link></span>
             </div> 
-
-            <!--
-            <div class="col-md-1" style="padding-top:15px">
-               <span style="font-size:19px">{{username}}</span>
-               <span style="margin-left:15px" @click="logout()"><a style="font-size:17px">登出</a></span>
-            </div>
-                -->
         </div>
     </div>
 </template>

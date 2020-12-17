@@ -9,6 +9,7 @@ from user import Login, UserAdd, User
 from machine import Addmachine, Getmachine, Updatemachine, Delemachine
 from machine_excel import Getmachine_excel
 from machine_upload import Upload_file
+from modis import Modis_download
 
 
 app = Flask(__name__)
@@ -189,6 +190,8 @@ api.add_resource(Updatemachine, '/init/updatemachine')
 api.add_resource(Getmachine_excel, '/init/machine_excel')
 api.add_resource(Delemachine, '/init/deletemachine')
 api.add_resource(Upload_file, '/init/upload')
+
+api.add_resource(Modis_download, '/init/modis_download')
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")

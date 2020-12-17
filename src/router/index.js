@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
-import login from '@/components/login'
+import modisdownload from '@/components/modisdownload'
 import head from '@/components/head'
 import user from '@/components/user'
 import task from '@/components/task'
@@ -31,8 +31,8 @@ export default new Router({
       component: HelloWorld
     },
     {
-      path: '/login',
-      component: login
+      path: '/modisdownload',
+      component: modisdownload
     }
   ]
 })
