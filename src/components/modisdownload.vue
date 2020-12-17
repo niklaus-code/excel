@@ -3,11 +3,11 @@
      <headd></headd>
     <div>
         <p class="pp" style="margin-top:20px">
-            <strong>今日下载数： {{count}}</strong>
-            <strong style="margin-left:40px">{{year}}年</strong>
+            <strong>{{year}}年</strong>
             <strong>{{month}}月</strong>
             <strong>{{day}}日</strong>
-            <strong>(每日凌晨更新数据，查询请稍候)</strong>
+            <strong style="margin-left:40px">今日下载数： {{count}}</strong>
+            <strong style="margin-left:40px">(每日凌晨更新数据，查询请稍候)</strong>
         <p>
 
         <table class="table table-bordered">
