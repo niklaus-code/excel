@@ -7,6 +7,7 @@
             <strong style="margin-left:20px">{{year}}年</strong>
             <strong>{{month}}月</strong>
             <strong>{{day}}日</strong>
+            <strong>(每日凌晨更新数据，查询请稍候)</strong>
         <p>
 
         <table class="table table-bordered">
